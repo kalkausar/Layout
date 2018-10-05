@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kalkausar.latihan.Layout_Relative">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="3dp"
+        android:id="@+id/cardView4">>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            app:srcCompat="@drawable/masjid" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"
+            android:text="SHARE" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:layout_marginLeft="85dp"
+            android:textStyle="bold"
+            android:textColor="#00CED1"
+            android:text="Learn More" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="110dp"
+            android:text="Lorem Ipsum"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:background="#91000000" />
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cardView4"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/cardView4"
+        android:layout_marginBottom="36dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginStart="72dp"
+        android:text="Back" />
+
+    <Button
+        android:id="@+id/btn_cls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignBaseline="@+id/btn_back"
+        android:layout_alignBottom="@+id/btn_back"
+        android:layout_marginLeft="54dp"
+        android:layout_marginStart="54dp"
+        android:layout_toEndOf="@+id/btn_back"
+        android:layout_toRightOf="@+id/btn_back"
+        android:text="Close" />
+
+</RelativeLayout>
