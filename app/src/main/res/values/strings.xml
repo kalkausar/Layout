@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Latihan</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="title_activity_menu_">Sardifa Travel</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <!--other-->
+    <string name="relative">Relative</string>
+    <string name="dummy_content">Lorem Ipsum 4 Linear</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -14,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_magnifier" />
-                            <entry key="sourceFile" value="D:\GUCC\DESAIN\ICON\magnifier.svg" />
+                            <entry key="outputName" value="ic_my_house" />
+                            <entry key="sourceFile" value="C:\Users\Kal Kausar\Downloads\ICON\MENU\my_house.svg" />
                           </map>
                         </option>
                       </PersistentState>
