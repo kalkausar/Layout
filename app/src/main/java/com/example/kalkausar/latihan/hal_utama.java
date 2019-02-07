@@ -1,12 +1,10 @@
 package com.example.kalkausar.latihan;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 
 public class hal_utama extends AppCompatActivity {
 
@@ -21,7 +19,7 @@ public class hal_utama extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getApplicationContext(), Menu_Activity.class));
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         }, 3000L); //4000 L = 3 detik
     }

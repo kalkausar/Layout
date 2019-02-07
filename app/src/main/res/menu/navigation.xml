@@ -15,6 +15,6 @@
         android:title="My Booking" />
     <item
         android:id="@+id/navigation_event"
-        android:icon="@drawable/ic_event"
-        android:title="Event" />
+        android:icon="@drawable/ic_my_user"
+        android:title="Account" />
 </menu>

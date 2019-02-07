@@ -44,9 +44,9 @@ public class Menu_Activity extends AppCompatActivity
 
                     return true;
                 case R.id.navigation_event:
-                    EventFragment eventFragment = new EventFragment();
+                    AccountFragment accountFragment = new AccountFragment();
                     FragmentTransaction fragmentEventTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentEventTransaction.replace(R.id.content, eventFragment);
+                    fragmentEventTransaction.replace(R.id.content, accountFragment);
                     fragmentEventTransaction.commit();
 
                     return true;
