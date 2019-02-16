@@ -1,7 +1,9 @@
 package com.example.kalkausar.latihan;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -10,11 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kalkausar.latihan.helper.InputValidation;
 import com.example.kalkausar.latihan.sql.DatabaseHelper;
+import com.example.kalkausar.latihan.utils.PreferenceUtils;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+
+    boolean doubleBackToExitPressedOnce = false;
 
     private final AppCompatActivity activity = LoginActivity.this;
 
@@ -38,6 +44,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private InputValidation inputValidation;
 
     @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Pleas click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -59,6 +84,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
 
         textViewCreateAccount = (TextView) findViewById(R.id.textViewCreateAccount);
+
+        PreferenceUtils utils = new PreferenceUtils();
+
+        if (utils.getEmail(this) != null) {
+            Intent intent = new Intent(LoginActivity.this, Menu_Activity.class);
+            startActivity(intent);
+            finish();
+        } else {
+
+        }
     }
 
     private void initListeners() {
@@ -94,13 +129,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!inputValidation.isInputEditTextFilled(editTextPassword, textInputLayoutPassword, getString(R.string.error_message_email))) {
             return;
         }
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
 
-        if (databaseHelper.checkUser(editTextEmail.getText().toString().trim()
-                , editTextPassword.getText().toString().trim())) {
+        if (databaseHelper.checkUser(email, password)) {
+            PreferenceUtils.saveEmail(email, this);
+            PreferenceUtils.savePassword(password, this);
             Intent accountsIntent = new Intent(activity, Menu_Activity.class);
             accountsIntent.putExtra("Email", editTextEmail.getText().toString().trim());
             emptyInputEditText();
             startActivity(accountsIntent);
+            finish();
         } else {
             Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();
         }
