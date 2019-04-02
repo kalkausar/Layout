@@ -1,48 +1,60 @@
 package com.example.kalkausar.latihan;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.example.kalkausar.latihan.helper.InputValidation;
-import com.example.kalkausar.latihan.sql.DatabaseHelper;
-import com.example.kalkausar.latihan.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    private final AppCompatActivity activity=RegisterActivity.this;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class RegisterActivity extends AppCompatActivity {
 
     private NestedScrollView nestedScrollView;
 
-    //Declaration EditTexts
-    private TextInputEditText editTextUserName;
-    private TextInputEditText editTextEmail;
-    private TextInputEditText editTextPassword;
-    private TextInputEditText editTextConfirmPassword;
+    CircleImageView ImgUserPhoto;
+    static int PReqCode = 1;
+    static int REQUESCODE = 1;
+    Uri pickedImgUrl;
+    private FirebaseAuth mAuth;
 
-    //Declaration TextInputLayout
-    private TextInputLayout textInputLayoutUserName;
-    private TextInputLayout textInputLayoutEmail;
-    private TextInputLayout textInputLayoutPassword;
-    private TextInputLayout textInputLayoutConfirmPassword;
+    //Declaration EditTexts
+    private TextInputEditText UserName;
+    private TextInputEditText Email;
+    private TextInputEditText Password;
+    private TextInputEditText ConfirmPassword;
+
+    //Declaration
+    private ProgressBar loadingProgress;
 
     //Declaration Button
     private Button buttonRegister;
-    private TextView textViewLogin;
-
-    //Declaration DatabaseHelper
-    private DatabaseHelper databaseHelper;
-    private InputValidation inputValidation;
-    private User user;
 
 
     @Override
@@ -50,89 +62,160 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        initViews();
-        initListeners();
-        initObjects();
+        //init views
+        ImgUserPhoto = findViewById(R.id.imageView_avareg);
+
+        UserName = findViewById(R.id.editTextUserName);
+        Email = findViewById(R.id.editTextEmail);
+        Password = findViewById(R.id.editTextPassword);
+        ConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+        loadingProgress = findViewById(R.id.progressBar_reg);
+        buttonRegister = findViewById(R.id.buttonRegister);
+        loadingProgress.setVisibility(View.INVISIBLE);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buttonRegister.setVisibility(View.INVISIBLE);
+                loadingProgress.setVisibility(View.VISIBLE);
+                final String name = UserName.getText().toString();
+                final String email = Email.getText().toString();
+                final String password = Password.getText().toString();
+                final String confirmpassword = ConfirmPassword.getText().toString();
+
+
+                if (password.length() > 8 && isValidPassword(Password.getText().toString().trim())) {
+                    CreateUserAccount(email, name, password);
+                }
+                if (email.isEmpty() || name.isEmpty() || password.isEmpty() || !password.equals(confirmpassword)) {
+                    showMessage("Field tidak boleh kosong");
+                    buttonRegister.setVisibility(View.VISIBLE);
+                    loadingProgress.setVisibility(View.INVISIBLE);
+                } else {
+                    showMessage("Password minimum 8 karakter terdiri dari angka dan huruf besar, kecil dan simbol");
+                    buttonRegister.setVisibility(View.VISIBLE);
+                    loadingProgress.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        ImgUserPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (Build.VERSION.SDK_INT >= 22) {
+                    checkAndRequestForPermission();
+
+                } else {
+                    openGallery();
+                }
+
+            }
+        });
     }
 
-    private void initViews(){
-        nestedScrollView=(NestedScrollView) findViewById(R.id.nestedScrollView);
+    private boolean isValidPassword(final String password) {
+        Pattern pattern;
+        Matcher matcher;
 
-        textInputLayoutUserName=(TextInputLayout)findViewById(R.id.textInputLayoutUserName);
-        textInputLayoutEmail=(TextInputLayout)findViewById(R.id.textInputLayoutEmail);
-        textInputLayoutPassword=(TextInputLayout)findViewById(R.id.textInputLayoutPassword);
-        textInputLayoutConfirmPassword=(TextInputLayout)findViewById(R.id.textInputConfirmPassword);
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$";
 
-        editTextUserName=(TextInputEditText) findViewById(R.id.editTextUserName);
-        editTextEmail=(TextInputEditText) findViewById(R.id.editTextEmail);
-        editTextPassword=(TextInputEditText) findViewById(R.id.editTextPassword);
-        editTextConfirmPassword=(TextInputEditText) findViewById(R.id.editTextConfirmPassword);
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(password);
 
-        buttonRegister=(Button)findViewById(R.id.buttonRegister);
+        return matcher.matches();
 
-        textViewLogin=(TextView)findViewById(R.id.textViewLogin);
     }
 
-    private void initListeners(){
-        buttonRegister.setOnClickListener(this);
-        textViewLogin.setOnClickListener(this);
+    private void CreateUserAccount(String email, final String name, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            showMessage("Account Created");
+                            updateUserInfo(name, pickedImgUrl, mAuth.getCurrentUser());
+                        } else {
+                            showMessage("Account Creation Failed" + task.getException().getMessage());
+                            buttonRegister.setVisibility(View.VISIBLE);
+                            loadingProgress.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
     }
 
-    private void initObjects(){
-        inputValidation=new InputValidation(activity);
-        databaseHelper=new DatabaseHelper(activity);
-        user=new User();
+    private void updateUserInfo(final String name, Uri pickedImgUrl, final FirebaseUser currentUser) {
+        StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("users_photos");
+        final StorageReference imageFilePatch = mStorage.child(pickedImgUrl.getLastPathSegment());
+        imageFilePatch.putFile(pickedImgUrl).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                imageFilePatch.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(name)
+                                .setPhotoUri(uri)
+                                .build();
+
+                        currentUser.updateProfile(profileUpdate)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            showMessage("Register Complete");
+                                            updateUI();
+                                        }
+                                    }
+                                });
+                    }
+                });
+            }
+        });
+    }
+
+    private void updateUI() {
+        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(login);
+        finish();
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void openGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent, REQUESCODE);
+    }
+
+    private void checkAndRequestForPermission() {
+        if (ContextCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(RegisterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                Toast.makeText(RegisterActivity.this, "please accept for required permission", Toast.LENGTH_SHORT).show();
+
+            } else {
+                ActivityCompat.requestPermissions(RegisterActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PReqCode);
+            }
+        } else
+            openGallery();
     }
 
     @Override
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.buttonRegister:
-                postDataToSQLite();
-                break;
-            case R.id.textViewLogin:
-                finish();
-                break;
-        }
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    private void postDataToSQLite(){
-        if(!inputValidation.isInputEditTextFilled(editTextUserName, textInputLayoutUserName, getString(R.string.error_message_name))){
-            return;
+        if (resultCode == RESULT_OK && requestCode == REQUESCODE && data != null) {
+            pickedImgUrl = data.getData();
+            ImgUserPhoto.setImageURI(pickedImgUrl);
         }
-        if(!inputValidation.isInputEditTextFilled(editTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))){
-            return;
-        }
-        if(!inputValidation.isInputEditTextEmail(editTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))){
-            return;
-        }
-        if (!inputValidation.isInputEditTextFilled(editTextPassword, textInputLayoutPassword,getString(R.string.error_message_password))){
-            return;
-        }
-        if(!inputValidation.isInputEditTextMatches(editTextPassword,editTextConfirmPassword,
-                textInputLayoutConfirmPassword,getString(R.string.error_password_match))){
-            return;
-        }
-
-        if(!databaseHelper.checkUser(editTextEmail.getText().toString().trim())){
-
-            user.setUserName(editTextUserName.getText().toString().trim());
-            user.setEmail(editTextEmail.getText().toString().trim());
-            user.setPassword(editTextPassword.getText().toString().trim());
-
-            databaseHelper.addUser(user);
-
-            Snackbar.make(nestedScrollView,getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
-            emptyInputEditText();
-        }else{
-            Snackbar.make(nestedScrollView,getString(R.string.error_email_exists ), Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    private void emptyInputEditText(){
-        editTextUserName.setText(null);
-        editTextEmail.setText(null);
-        editTextPassword.setText(null);
-        editTextConfirmPassword.setText(null);
     }
 }

@@ -21,6 +21,9 @@
     <string name="error_password_match">Password Does Not Matches</string>
     <string name="success_message">Registration Successful</string>
 
+    <string name="belum_tersedia">Layanan ini belum tersedia</string>
+    <string name="contruction">Sedang dalam proses pembuatan</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

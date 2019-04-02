@@ -6,14 +6,14 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
-public class hal_utama extends AppCompatActivity {
+public class Splashscreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //menghilangkan ActionBar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_hal_utama);
+        setContentView(R.layout.activity_splashscreen);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

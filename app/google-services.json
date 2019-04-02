@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "927373542534",
+    "firebase_url": "https://travelapp-18a56.firebaseio.com",
+    "project_id": "travelapp-18a56",
+    "storage_bucket": "travelapp-18a56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927373542534:android:ecc4f63ade211b08",
+        "android_client_info": {
+          "package_name": "com.example.kalkausar.latihan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927373542534-9e0163t3apcrhk6l7q7n2sstoga5nplq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kalkausar.latihan",
+            "certificate_hash": "48e294d23b5b2a10bb71cf20bed4ff28ba129710"
+          }
+        },
+        {
+          "client_id": "927373542534-nhfsk89pmk3e2eeft75ljs8vk253k1ul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPp4Ax0wtF2-8lW-HumU0PccqbFWZaitU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927373542534-nhfsk89pmk3e2eeft75ljs8vk253k1ul.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
