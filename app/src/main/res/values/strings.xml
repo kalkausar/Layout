@@ -21,8 +21,13 @@
     <string name="error_password_match">Password Does Not Matches</string>
     <string name="success_message">Registration Successful</string>
 
-    <string name="belum_tersedia">Layanan ini belum tersedia</string>
-    <string name="contruction">Sedang dalam proses pembuatan</string>
+    <string name="hotel_belum_tersedia">Layanan hotel belum tersedia</string>
+    <string name="pesawat_belum_tersedia">Layanan pesawat belum tersedia</string>
+    <string name="wisata_belum_tersedia">Layanan wisata belum tersedia</string>
+    <string name="car_belum_tersedia">Layanan Rental Mobil belum tersedia</string>
+    <string name="ferry_belum_tersedia">Layanan ferry belum tersedia</string>
+    <string name="event_belum_tersedia">Layanan event belum tersedia</string>
+    <string name="contruction">Sedang dalam proses pengembangan</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

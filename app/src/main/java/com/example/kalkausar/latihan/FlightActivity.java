@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-public class DetailActivity extends AppCompatActivity {
+public class FlightActivity extends AppCompatActivity {
 
     TextView textView1, textView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_flight);
+        setTitle("Pesawat");
 
         textView1 = findViewById(R.id.textview_title);
         textView2 = findViewById(R.id.textview_desc);
@@ -23,14 +24,5 @@ public class DetailActivity extends AppCompatActivity {
         Typeface customfont2 = Typeface.createFromAsset(getAssets(), "font/contm.ttf");
         textView2.setTypeface(customfont2);
 
-        getIncomingIntent();
-    }
-
-    private void getIncomingIntent() {
-        if (getIntent().hasExtra("Title")) {
-
-            String title = getIntent().getStringExtra("Title");
-            setTitle(title);
-        }
     }
 }

@@ -100,7 +100,7 @@ public class AccountFragment extends Fragment {
         alertDialogBuilder
                 .setMessage("Are you sure to logout?")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Keluar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // jika tombol diklik, maka akan menutup activity ini
                         FirebaseAuth.getInstance().signOut();
@@ -110,7 +110,7 @@ public class AccountFragment extends Fragment {
                         AccountFragment.this.getActivity().finish();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // jika tombol ini diklik, akan menutup dialog
                         // dan tidak terjadi apa2

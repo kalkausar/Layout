@@ -36,8 +36,13 @@
             android:name=".RegisterActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".FlightActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".HotelActivity" />
+        <activity android:name=".WisataActivity" />
+        <activity android:name=".CarActivity" />
+        <activity android:name=".FerryActivity" />
+        <activity android:name=".EventActivity"></activity>
     </application>
 
 </manifest>

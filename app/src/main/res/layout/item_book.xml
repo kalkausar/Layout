@@ -12,9 +12,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
-        android:background="#C5CAE9"
-        android:foreground="?attr/selectableItemBackground"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:background="#ffffff"
+        android:foreground="?attr/selectableItemBackground">
 
         <LinearLayout
             android:layout_width="match_parent"

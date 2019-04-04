@@ -3,20 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_gravity="center"
-    tools:context=".DetailActivity">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".WisataActivity">
 
     <LinearLayout
-        android:id="@+id/relative_layout_contruction"
+        android:id="@+id/relative_layout_contruction_wisata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageView_detail"
+            android:id="@+id/imageView_wisata"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_centerInParent="true"
@@ -24,16 +23,16 @@
             android:src="@drawable/recontruction" />
 
         <TextView
-            android:id="@+id/textview_title"
+            android:id="@+id/textview_title_wisata"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@+id/imageView_detail"
-            android:text="@string/belum_tersedia"
+            android:text="@string/wisata_belum_tersedia"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textview_desc"
+            android:id="@+id/textview_desc_wisata"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@+id/imageView_detail"

@@ -10,8 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.kalkausar.latihan.DetailActivity;
+import com.example.kalkausar.latihan.CarActivity;
+import com.example.kalkausar.latihan.EventActivity;
+import com.example.kalkausar.latihan.FerryActivity;
+import com.example.kalkausar.latihan.FlightActivity;
+import com.example.kalkausar.latihan.HotelActivity;
 import com.example.kalkausar.latihan.R;
+import com.example.kalkausar.latihan.WisataActivity;
 import com.example.kalkausar.latihan.model.grid_menu;
 
 import java.util.List;
@@ -37,8 +42,27 @@ public class CustomGridViewAdapter extends RecyclerView.Adapter<GridViewHolder> 
         holder.mparentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("Title", gridList.get(position).getMenuName());
+                Intent intent = new Intent();
+                switch (position) {
+                    case 0:
+                        intent = new Intent(context, FlightActivity.class);
+                        break;
+                    case 1:
+                        intent = new Intent(context, HotelActivity.class);
+                        break;
+                    case 2:
+                        intent = new Intent(context, WisataActivity.class);
+                        break;
+                    case 3:
+                        intent = new Intent(context, CarActivity.class);
+                        break;
+                    case 4:
+                        intent = new Intent(context, FerryActivity.class);
+                        break;
+                    case 5:
+                        intent = new Intent(context, EventActivity.class);
+                        break;
+                }
                 context.startActivity(intent);
             }
         });
