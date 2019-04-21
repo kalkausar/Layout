@@ -20,7 +20,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@drawable/user" />
 
         <TextView
             android:id="@+id/text_view_name_account"
@@ -47,8 +47,7 @@
             android:layout_marginTop="16dp"
             android:background="@color/colorPrimary"
             android:text="Logout"
-            android:textColor="@android:color/white"
-            android:onClick="btnClick"/>
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

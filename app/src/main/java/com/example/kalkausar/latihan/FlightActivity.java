@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kalkausar.latihan.model.Flight;
@@ -26,6 +27,7 @@ public class FlightActivity extends AppCompatActivity {
     private TextInputEditText passenger_flight;
     private TextInputEditText price_flight;
     private Button buttonSave;
+    private ProgressBar progressBar_flight;
 
     DatabaseReference databaseFlight;
 
@@ -36,15 +38,17 @@ public class FlightActivity extends AppCompatActivity {
         setTitle("Input Tiket Pesawat");
 
         //declare
-        name_flight=(TextInputEditText) findViewById(R.id.edit_Text_Name_Passengger);
+        name_flight = (TextInputEditText) findViewById(R.id.edit_Text_Name_Passengger);
         departure_flight = (TextInputEditText) findViewById(R.id.edit_Text_Departure);
         arrival_flight = (TextInputEditText) findViewById(R.id.edit_Text_Arrival);
         date_flight = (TextInputEditText) findViewById(R.id.edit_Text_Date);
         passenger_flight = (TextInputEditText) findViewById(R.id.edit_Text_Penumpang);
         price_flight = (TextInputEditText) findViewById(R.id.edit_Text_Price);
         buttonSave = (Button) findViewById(R.id.button_save_flight);
+        progressBar_flight = (ProgressBar) findViewById(R.id.progressBar_flight);
+        progressBar_flight.setVisibility(View.INVISIBLE);
 
-        databaseFlight=FirebaseDatabase.getInstance().getReference("Flight");
+        databaseFlight = FirebaseDatabase.getInstance().getReference("Flight");
 
         date_flight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +61,7 @@ public class FlightActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addflight();
+                clearText();
             }
         });
     }
@@ -74,8 +79,18 @@ public class FlightActivity extends AppCompatActivity {
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
+    private void clearText(){
+        name_flight.getText().clear();
+        departure_flight.getText().clear();
+        arrival_flight.getText().clear();
+        date_flight.getText().clear();
+        passenger_flight.getText().clear();
+        price_flight.getText().clear();
+    }
 
-    private void addflight(){
+    private void addflight() {
+        buttonSave.setVisibility(View.INVISIBLE);
+        progressBar_flight.setVisibility(View.VISIBLE);
         String name = name_flight.getText().toString().trim();
         String departure = departure_flight.getText().toString().trim();
         String arrival = arrival_flight.getText().toString().trim();
@@ -83,13 +98,17 @@ public class FlightActivity extends AppCompatActivity {
         String passenger = passenger_flight.getText().toString().trim();
         String price = price_flight.getText().toString().trim();
 
-        if(departure.isEmpty()||arrival.isEmpty()||date.isEmpty()||passenger.isEmpty()||price.isEmpty()){
+        if (departure.isEmpty() || arrival.isEmpty() || date.isEmpty() || passenger.isEmpty() || price.isEmpty()) {
             Toast.makeText(this, "Mohon isi data secara lengkap!!", Toast.LENGTH_LONG).show();
-        }else{
-            String id= databaseFlight.push().getKey();
+            buttonSave.setVisibility(View.VISIBLE);
+            progressBar_flight.setVisibility(View.INVISIBLE);
+        } else {
+            String id = databaseFlight.push().getKey();
             Flight flight = new Flight(id, name, departure, arrival, date, passenger, price);
             databaseFlight.child(id).setValue(flight);
             Toast.makeText(this, "Berhasil ditambahkan", Toast.LENGTH_LONG).show();
+            buttonSave.setVisibility(View.VISIBLE);
+            progressBar_flight.setVisibility(View.INVISIBLE);
         }
     }
 }
