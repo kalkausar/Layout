@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -39,16 +38,13 @@ public class AccountFragment extends Fragment {
 
     public AccountFragment() {
         // Required empty public constructor
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_account, container, false);
-
 
         //set title
         getActivity().setTitle("Account");
@@ -80,12 +76,12 @@ public class AccountFragment extends Fragment {
 
     private void setInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("users_photos");
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(AccountFragment.this)
-                        .load(uri)
+                        .load(storageReference)
                         .into(imgProfile);
             }
         });
@@ -95,7 +91,6 @@ public class AccountFragment extends Fragment {
 
     private void showDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
         // set pesan dari dialog
         alertDialogBuilder
                 .setMessage("Are you sure to logout?")
@@ -117,10 +112,8 @@ public class AccountFragment extends Fragment {
                         dialog.cancel();
                     }
                 });
-
         // membuat alert dialog dari builder
         AlertDialog alertDialog = alertDialogBuilder.create();
-
         // menampilkan alert dialog
         alertDialog.show();
     }
